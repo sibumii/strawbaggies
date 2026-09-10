@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strawbaggies — Handwoven Bags, Made in Sydney</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wheat: #E7D6A3;
+    --sand: #C9A96B;
+    --fiber: #5B4630;
+    --ink: #23201B;
+    --paper: #F7F1E2;
+    --teal: #2C5E58;
+    --teal-deep: #1E4640;
+    --line: rgba(35,32,27,0.14);
+    --error: #A5402F;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper); color:var(--ink); font-family:'Inter', sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3, .display{font-family:'Fraunces', serif; font-weight:500; letter-spacing:-0.01em;}
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+  .weave{
+    background-image:
+      repeating-linear-gradient(45deg, var(--sand) 0 3px, transparent 3px 22px),
+      repeating-linear-gradient(-45deg, var(--fiber) 0 3px, transparent 3px 22px);
+    background-color:var(--wheat);
+  }
+  header{position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:1px solid var(--line);}
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 0;}
+  .logo{font-family:'Fraunces', serif; font-size:1.4rem; font-weight:600; text-decoration:none;}
+  .nav-links{display:flex; gap:28px; list-style:none; font-size:0.95rem;}
+  .nav-links a{text-decoration:none; opacity:0.85;}
+  .nav-links a:hover{opacity:1;}
+  .nav-cta{background:var(--teal); color:var(--paper); padding:9px 18px; border-radius:2px; text-decoration:none; font-size:0.9rem; font-weight:500;}
+  .nav-cta:hover{background:var(--teal-deep);}
+  .hero{padding:78px 0 64px;}
+  .hero-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;}
+  .hero h1{font-size:clamp(2.4rem, 4.2vw, 3.6rem); line-height:1.06; max-width:11ch;}
+  .hero p{margin-top:22px; max-width:38ch; font-size:1.08rem; color:#443a2c;}
+  .hero-actions{margin-top:32px; display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{display:inline-block; padding:13px 26px; border-radius:2px; text-decoration:none; font-size:0.95rem; font-weight:500; border:1px solid var(--ink); cursor:pointer; background:transparent; font-family:'Inter';}
+  .btn-solid{background:var(--ink); color:var(--paper);}
+  .btn-solid:hover{background:var(--teal-deep); border-color:var(--teal-deep);}
+  .btn-outline{background:transparent; color:var(--ink);}
+  .btn-outline:hover{background:rgba(35,32,27,0.06);}
+  .hero-art{aspect-ratio:4/5; border-radius:4px; position:relative; overflow:hidden;}
+  .hero-art svg{width:100%; height:100%; display:block;}
+  .strip{background:var(--fiber); color:var(--wheat); padding:13px 0; font-size:0.85rem; letter-spacing:0.02em; overflow:hidden; white-space:nowrap;}
+  .strip-inner{display:inline-flex; gap:48px; animation:scroll 32s linear infinite;}
+  .strip:hover .strip-inner{animation-play-state:paused;}
+  @keyframes scroll{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+  @media (prefers-reduced-motion: reduce){.strip-inner{animation:none;}}
+  .section{padding:76px 0;}
+  .section-head{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:40px; gap:24px; flex-wrap:wrap;}
+  .section-head h2{font-size:clamp(1.7rem, 2.6vw, 2.2rem);}
+  .section-head p{max-width:40ch; color:#5c5140; font-size:0.98rem;}
+  .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:32px 28px;}
+  .card{background:#fff; border:1px solid var(--line); border-radius:3px; overflow:hidden; display:flex; flex-direction:column;}
+  .card-img{aspect-ratio:1/1; position:relative;}
+  .card-img svg, .card-img img{width:100%; height:100%; object-fit:cover;}
+  .card-body{padding:18px 18px 20px; display:flex; flex-direction:column; gap:6px; flex:1;}
+  .card-tag{font-size:0.78rem; color:var(--teal); font-weight:500;}
+  .card-name{font-family:'Fraunces', serif; font-size:1.18rem; font-weight:500;}
+  .card-desc{font-size:0.88rem; color:#6b6153; flex:1;}
+  .card-foot{display:flex; align-items:center; justify-content:space-between; margin-top:10px;}
+  .card-price{font-weight:600; font-size:1rem;}
+  .buy{background:var(--ink); color:var(--paper); padding:9px 16px; border-radius:2px; text-decoration:none; font-size:0.85rem; font-weight:500;}
+  .buy:hover{background:var(--teal-deep);}
+  .empty-note{color:#6b6153; font-size:0.95rem;}
+  .about{background:var(--wheat); padding:80px 0;}
+  .about-grid{display:grid; grid-template-columns:0.85fr 1.15fr; gap:56px; align-items:center;}
+  .about h2{font-size:clamp(1.8rem, 3vw, 2.5rem); max-width:14ch;}
+  .about p{margin-top:18px; max-width:46ch; color:#443a2c;}
+  .about-photo{aspect-ratio:4/5; border-radius:4px; overflow:hidden;}
+  .about-photo svg{width:100%; height:100%;}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:32px;}
+  .step{border-top:1px solid var(--ink); padding-top:16px;}
+  .step h3{font-size:1.05rem; font-weight:600; font-family:'Inter'; margin-bottom:8px;}
+  .step p{font-size:0.9rem; color:#6b6153;}
+  footer{background:var(--ink); color:var(--wheat); padding:56px 0 32px;}
+  .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; padding-bottom:36px; border-bottom:1px solid rgba(231,214,163,0.18);}
+  footer h4{font-size:0.85rem; opacity:0.7; margin-bottom:14px; font-weight:500;}
+  footer .logo{color:var(--wheat);}
+  footer p{color:rgba(247,241,226,0.75); font-size:0.92rem; max-width:32ch; margin-top:10px;}
+  footer ul{list-style:none;}
+  footer li{margin-bottom:9px;}
+  footer a{text-decoration:none; color:rgba(247,241,226,0.85); font-size:0.92rem;}
+  footer a:hover{color:#fff;}
+  .footer-bottom{padding-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.8rem; color:rgba(247,241,226,0.55);}
+  @media (max-width: 860px){
+    .hero-grid{grid-template-columns:1fr; padding-top:0;}
+    .hero-art{order:-1; aspect-ratio:16/10;}
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .about-grid{grid-template-columns:1fr;}
+    .about-photo{order:-1; aspect-ratio:16/9;}
+    .steps{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr; gap:28px;}
+    .nav-links{display:none;}
+  }
+  @media (max-width: 560px){.grid{grid-template-columns:1fr;}}
+  :focus-visible{outline:2px solid var(--teal); outline-offset:2px;}
+
+  /* ---------- admin ---------- */
+  #adminView{display:none; min-height:100vh; background:var(--paper);}
+  .admin-wrap{max-width:760px; margin:0 auto; padding:60px 28px 100px;}
+  .admin-topbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:36px;}
+  .admin-topbar a{font-size:0.9rem; text-decoration:underline; opacity:0.7;}
+  .login-box{max-width:360px; margin:60px auto 0; display:flex; flex-direction:column; gap:14px;}
+  .login-box h2{margin-bottom:6px;}
+  label{font-size:0.85rem; font-weight:500; display:block; margin-bottom:5px;}
+  input, textarea{
+    width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:2px;
+    font-family:'Inter'; font-size:0.95rem; background:#fff; color:var(--ink);
+  }
+  textarea{resize:vertical; min-height:64px;}
+  .field{margin-bottom:14px;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .msg{font-size:0.85rem; padding:10px 12px; border-radius:2px;}
+  .msg-error{background:rgba(165,64,47,0.1); color:var(--error);}
+  .msg-ok{background:rgba(44,94,88,0.1); color:var(--teal-deep);}
+  .admin-card{background:#fff; border:1px solid var(--line); border-radius:3px; padding:22px; margin-bottom:22px;}
+  .admin-row{display:flex; justify-content:space-between; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid var(--line);}
+  .admin-row:last-child{border-bottom:none;}
+  .admin-row-name{font-weight:600; font-size:0.95rem;}
+  .admin-row-sub{font-size:0.82rem; color:#6b6153;}
+  .admin-row-actions{display:flex; gap:10px; flex-shrink:0;}
+  .link-btn{background:none; border:none; text-decoration:underline; cursor:pointer; font-size:0.85rem; font-family:'Inter'; color:inherit;}
+  .link-btn.danger{color:var(--error);}
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+
+<div id="siteView">
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo">Strawbaggies</a>
+    <ul class="nav-links">
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#about">Our story</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#shop" class="nav-cta">Shop the range</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Woven by hand, carried every day.</h1>
+      <p>Each bag is hand-woven at the market stall before it ever reaches Instagram. Straw, raffia and natural fibre — made in small batches around Sydney.</p>
+      <div class="hero-actions">
+        <a href="#shop" class="btn btn-solid">Shop the range</a>
+        <a href="#about" class="btn btn-outline">Our story</a>
+      </div>
+    </div>
+    <div class="hero-art weave">
+      <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="weaveHero" width="26" height="26" patternUnits="userSpaceOnUse">
+            <rect width="26" height="26" fill="#E7D6A3"/>
+            <path d="M0 13 H26 M13 0 V26" stroke="#5B4630" stroke-width="3" opacity="0.35"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="500" fill="url(#weaveHero)"/>
+        <g transform="translate(80,150)">
+          <path d="M0 60 Q0 30 40 20 L200 20 Q240 30 240 60 L240 220 Q240 250 200 250 L40 250 Q0 250 0 220 Z" fill="#5B4630" opacity="0.9"/>
+          <path d="M10 60 Q10 40 45 30 L195 30 Q230 40 230 60 L230 215 Q230 240 195 240 L45 240 Q10 240 10 215 Z" fill="none" stroke="#2C5E58" stroke-width="4" opacity="0.6"/>
+          <path d="M60 20 Q60 -30 120 -30 Q180 -30 180 20" fill="none" stroke="#5B4630" stroke-width="14" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="strip-inner">
+    <span>Hand-woven in small batches</span>
+    <span>Found us at the markets? Same bags, here online</span>
+    <span>Secure checkout via Square</span>
+    <span>Based in Sydney, shipped across Australia</span>
+    <span>Hand-woven in small batches</span>
+    <span>Found us at the markets? Same bags, here online</span>
+    <span>Secure checkout via Square</span>
+    <span>Based in Sydney, shipped across Australia</span>
+  </div>
+</div>
+
+<section class="section" id="shop">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>The current weave</h2>
+      <p>Six bags, six colourways. Stock is limited to what's actually been woven — once it's gone at the market, it's gone here too.</p>
+    </div>
+    <div class="grid" id="productGrid"><p class="empty-note">Loading the current range…</p></div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-photo weave">
+      <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="weaveAbout" width="30" height="30" patternUnits="userSpaceOnUse">
+            <rect width="30" height="30" fill="#C9A96B"/>
+            <path d="M0 15 H30 M15 0 V30" stroke="#23201B" stroke-width="2.5" opacity="0.3"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="500" fill="url(#weaveAbout)"/>
+      </svg>
+    </div>
+    <div>
+      <h2>Started with one stall, one Saturday.</h2>
+      <p>Strawbaggies began at a local market with a folding table and a handful of bags woven over a few slow weekends. The Instagram page grew faster than the stock could keep up — this site exists so the people who find us there don't have to wait for the next market to take one home.</p>
+      <p>Every piece is still made the same way: by hand, in small runs, with natural fibre that softens and ages with use.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="section-head"><h2>How ordering works</h2></div>
+    <div class="steps">
+      <div class="step"><h3>1. Choose your bag</h3><p>Browse the current weave above — what's listed is what's actually in stock.</p></div>
+      <div class="step"><h3>2. Pay securely with Square</h3><p>"Buy now" opens a Square checkout — the same payment system used at the market stall, just online.</p></div>
+      <div class="step"><h3>3. Shipped from Sydney</h3><p>Orders are packed and posted within a few days, tracked, anywhere in Australia.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="logo">Strawbaggies</a>
+        <p>Hand-woven bags, made in small batches around Sydney. Found first at the markets, now online for our Instagram community.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul><li><a href="#shop">All bags</a></li><li><a href="#how">How it works</a></li></ul>
+      </div>
+      <div>
+        <h4>Find us</h4>
+        <ul>
+          <li><a href="https://instagram.com/YOUR_INSTAGRAM_HANDLE" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="mailto:hello@strawbaggies.com">hello@strawbaggies.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Strawbaggies</span>
+      <a href="#admin" style="text-decoration:underline;">Owner login</a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<div id="adminView">
+  <div class="admin-wrap">
+    <div class="admin-topbar">
+      <span class="logo" style="font-size:1.2rem;">Strawbaggies — Admin</span>
+      <a href="#" id="backToSite">← Back to site</a>
+    </div>
+
+    <div id="loginBox" class="login-box">
+      <h2>Owner login</h2>
+      <div id="loginMsg"></div>
+      <div class="field">
+        <label for="loginEmail">Email</label>
+        <input id="loginEmail" type="email" autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" type="password" autocomplete="current-password">
+      </div>
+      <button class="btn btn-solid" id="loginBtn" type="button">Log in</button>
+    </div>
+
+    <div id="dashboard" class="hidden">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <span id="loggedInAs" style="font-size:0.9rem; color:#6b6153;"></span>
+        <button class="link-btn" id="logoutBtn" type="button">Log out</button>
+      </div>
+
+      <div class="admin-card">
+        <h3 id="formTitle" style="margin-bottom:16px;">Add a bag</h3>
+        <div id="formMsg"></div>
+        <div class="field-row">
+          <div class="field"><label for="f_name">Name</label><input id="f_name"></div>
+          <div class="field"><label for="f_price">Price (e.g. $68)</label><input id="f_price"></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="f_tag">Fibre / colourway</label><input id="f_tag"></div>
+          <div class="field"><label for="f_image">Photo URL (optional)</label><input id="f_image" placeholder="https://..."></div>
+        </div>
+        <div class="field"><label for="f_desc">Description</label><textarea id="f_desc"></textarea></div>
+        <div class="field"><label for="f_square">Square payment link</label><input id="f_square" placeholder="https://square.link/..."></div>
+        <div style="display:flex; gap:12px; margin-top:6px;">
+          <button class="btn btn-solid" id="saveBtn" type="button">Add bag</button>
+          <button class="btn btn-outline hidden" id="cancelEditBtn" type="button">Cancel edit</button>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <h3 style="margin-bottom:6px;">Current bags</h3>
+        <p class="empty-note" style="margin-bottom:10px;">These are exactly what customers see on the site.</p>
+        <div id="adminList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const SUPABASE_URL = 'https://uwmpiilngkvfomaydkea.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_orfGzVuJc0GeqsomP3MJYA_4MOEcZwW';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const PLACEHOLDER_COLORS = ['#C9A96B','#E7D6A3','#2C5E58','#5B4630','#8A6A45','#A88756'];
+
+function esc(str){
+  const d = document.createElement('div');
+  d.textContent = str ?? '';
+  return d.innerHTML;
+}
+
+function bagSVG(color){
+  const id = 'p' + color.replace('#','');
+  return `<svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice">
+    <defs><pattern id="${id}" width="20" height="20" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="${color}"/>
+      <path d="M0 10 H20 M10 0 V20" stroke="#23201B" stroke-width="1.6" opacity="0.28"/>
+    </pattern></defs>
+    <rect width="300" height="300" fill="url(#${id})"/>
+    <g transform="translate(70,110)" opacity="0.92">
+      <path d="M0 40 Q0 18 30 12 L130 12 Q160 18 160 40 L160 150 Q160 172 130 172 L30 172 Q0 172 0 150 Z" fill="#23201B" opacity="0.85"/>
+      <path d="M35 12 Q35 -22 80 -22 Q125 -22 125 12" fill="none" stroke="#23201B" stroke-width="9" stroke-linecap="round" opacity="0.85"/>
+    </g>
+  </svg>`;
+}
+
+let currentProducts = [];
+let editingId = null;
+
+async function loadProducts(){
+  const { data, error } = await supabase.from('products').select('*').order('id', { ascending: true });
+  if (error){
+    document.getElementById('productGrid').innerHTML = '<p class="empty-note">Could not load the range right now — please refresh.</p>';
+    console.error(error);
+    return;
+  }
+  currentProducts = data || [];
+  renderStorefront();
+  if (!document.getElementById('dashboard').classList.contains('hidden')) renderAdminList();
+}
+
+function renderStorefront(){
+  const grid = document.getElementById('productGrid');
+  if (!currentProducts.length){
+    grid.innerHTML = '<p class="empty-note">Nothing listed yet — check back soon, or find us at the next market.</p>';
+    return;
+  }
+  grid.innerHTML = currentProducts.map((p, i) => `
+    <article class="card">
+      <div class="card-img">${ p.image_url ? `<img src="${esc(p.image_url)}" alt="${esc(p.name)}">` : bagSVG(PLACEHOLDER_COLORS[i % PLACEHOLDER_COLORS.length]) }</div>
+      <div class="card-body">
+        <span class="card-tag">${esc(p.tag || '')}</span>
+        <h3 class="card-name">${esc(p.name || '')}</h3>
+        <p class="card-desc">${esc(p.description || '')}</p>
+        <div class="card-foot">
+          <span class="card-price">${esc(p.price || '')}</span>
+          <a class="buy" href="${esc(p.square_link || '#')}" target="_blank" rel="noopener">Buy now</a>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
+function renderAdminList(){
+  const list = document.getElementById('adminList');
+  if (!currentProducts.length){
+    list.innerHTML = '<p class="empty-note">No bags added yet.</p>';
+    return;
+  }
+  list.innerHTML = currentProducts.map(p => `
+    <div class="admin-row">
+      <div>
+        <div class="admin-row-name">${esc(p.name || '')} — ${esc(p.price || '')}</div>
+        <div class="admin-row-sub">${esc(p.tag || '')}</div>
+      </div>
+      <div class="admin-row-actions">
+        <button class="link-btn" data-edit="${p.id}">Edit</button>
+        <button class="link-btn danger" data-delete="${p.id}">Delete</button>
+      </div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('[data-edit]').forEach(btn => btn.addEventListener('click', () => startEdit(btn.dataset.edit)));
+  list.querySelectorAll('[data-delete]').forEach(btn => btn.addEventListener('click', () => deleteProduct(btn.dataset.delete)));
+}
+
+function startEdit(id){
+  const p = currentProducts.find(x => String(x.id) === String(id));
+  if (!p) return;
+  editingId = p.id;
+  document.getElementById('f_name').value = p.name || '';
+  document.getElementById('f_price').value = p.price || '';
+  document.getElementById('f_tag').value = p.tag || '';
+  document.getElementById('f_image').value = p.image_url || '';
+  document.getElementById('f_desc').value = p.description || '';
+  document.getElementById('f_square').value = p.square_link || '';
+  document.getElementById('formTitle').textContent = 'Edit bag';
+  document.getElementById('saveBtn').textContent = 'Save changes';
+  document.getElementById('cancelEditBtn').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetForm(){
+  editingId = null;
+  ['f_name','f_price','f_tag','f_image','f_desc','f_square'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('formTitle').textContent = 'Add a bag';
+  document.getElementById('saveBtn').textContent = 'Add bag';
+  document.getElementById('cancelEditBtn').classList.add('hidden');
+  document.getElementById('formMsg').innerHTML = '';
+}
+
+async function saveProduct(){
+  const product = {
+    name: document.getElementById('f_name').value.trim(),
+    price: document.getElementById('f_price').value.trim(),
+    tag: document.getElementById('f_tag').value.trim(),
+    image_url: document.getElementById('f_image').value.trim(),
+    description: document.getElementById('f_desc').value.trim(),
+    square_link: document.getElementById('f_square').value.trim(),
+  };
+  const msg = document.getElementById('formMsg');
+  if (!product.name || !product.price){
+    msg.innerHTML = '<div class="msg msg-error">Name and price are required.</div>';
+    return;
+  }
+  let error;
+  if (editingId){
+    ({ error } = await supabase.from('products').update(product).eq('id', editingId));
+  } else {
+    ({ error } = await supabase.from('products').insert([product]));
+  }
+  if (error){
+    msg.innerHTML = `<div class="msg msg-error">Could not save: ${esc(error.message)}</div>`;
+    return;
+  }
+  msg.innerHTML = '<div class="msg msg-ok">Saved.</div>';
+  resetForm();
+  await loadProducts();
+}
+
+async function deleteProduct(id){
+  if (!confirm('Remove this bag from the site?')) return;
+  const { error } = await supabase.from('products').delete().eq('id', id);
+  if (error){ alert('Could not delete: ' + error.message); return; }
+  await loadProducts();
+}
+
+// ---------- auth / routing ----------
+function showAdminRoute(){
+  document.getElementById('siteView').style.display = 'none';
+  document.getElementById('adminView').style.display = 'block';
+}
+function showSiteRoute(){
+  document.getElementById('siteView').style.display = '';
+  document.getElementById('adminView').style.display = 'none';
+}
+
+async function refreshAuthUI(){
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session){
+    document.getElementById('loginBox').classList.add('hidden');
+    document.getElementById('dashboard').classList.remove('hidden');
+    document.getElementById('loggedInAs').textContent = 'Logged in as ' + session.user.email;
+    renderAdminList();
+  } else {
+    document.getElementById('loginBox').classList.remove('hidden');
+    document.getElementById('dashboard').classList.add('hidden');
+  }
+}
+
+function route(){
+  if (location.hash === '#admin'){
+    showAdminRoute();
+    refreshAuthUI();
+  } else {
+    showSiteRoute();
+  }
+}
+window.addEventListener('hashchange', route);
+document.getElementById('backToSite').addEventListener('click', (e) => { e.preventDefault(); location.hash = ''; });
+
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const msg = document.getElementById('loginMsg');
+  msg.innerHTML = '';
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error){
+    msg.innerHTML = `<div class="msg msg-error">${esc(error.message)}</div>`;
+    return;
+  }
+  await refreshAuthUI();
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await supabase.auth.signOut();
+  await refreshAuthUI();
+});
+
+document.getElementById('saveBtn').addEventListener('click', saveProduct);
+document.getElementById('cancelEditBtn').addEventListener('click', resetForm);
+
+route();
+loadProducts();
+</script>
+
+<!--
+=====================================================================
+NEXT STEPS FOR HUSO
+=====================================================================
+1) ADMIN PANEL
+   Go to yoursite-url.com/#admin (or click "Owner login" in the
+   footer) and log in with the email + password you created in
+   Supabase Authentication > Users. From there you can add, edit
+   and delete bags — changes appear on the live site immediately,
+   no code editing needed.
+
+2) FREE HOSTING
+   Create a free GitHub account, make a new repository, upload this
+   file renamed to index.html, then enable GitHub Pages in the repo
+   Settings > Pages. You'll get a free link like
+   husoname.github.io/strawbaggies to put in your Instagram bio.
+
+3) PHOTOS
+   In the admin panel's "Photo URL" field, paste a direct image link
+   (e.g. an image uploaded to Supabase Storage, or any public image
+   URL). Leave it blank to keep the woven placeholder artwork.
+
+4) SQUARE PAYMENT LINKS
+   In your Square Dashboard > Online Checkout > Payment Links,
+   create a free link per bag and paste it into the admin panel's
+   "Square payment link" field.
+
+5) INSTAGRAM / EMAIL
+   Replace YOUR_INSTAGRAM_HANDLE and hello@strawbaggies.com in the
+   footer with your real details.
+=====================================================================
+-->
+</body>
+</html>
